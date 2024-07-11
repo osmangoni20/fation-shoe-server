@@ -59,7 +59,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Product fetched successfully!",
-      data: result.length === 0 && null,
+      data: result,
     });
   } catch (error: any) {
     res.status(500).json({

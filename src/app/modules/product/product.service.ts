@@ -1,3 +1,4 @@
+import { ObjectId } from "bson";
 import { ProductModel } from "../schema/productSchema";
 import { TProduct } from "./product.interface";
 
@@ -14,10 +15,10 @@ const getAllProductFromDB = async () => {
 const getSingleProductFromDB = async (productId: string) => {
   const result = await ProductModel.aggregate([
     {
-      $match: { id: productId },
+      $match: { _id:{$eq:new ObjectId(productId)}},
     },
   ]);
-  return result;
+  return result[0];
 };
 
 // update single Product
@@ -26,7 +27,7 @@ const updateSingleProductIntoDB = async (
   updateData: TProduct,
 ) => {
   const result = await ProductModel.updateOne(
-    { id: productId },
+    {_id: new ObjectId(productId)  },
     {
       $set: { ...updateData },
     },
@@ -46,7 +47,7 @@ const searchSingleProductFromDB = async (searchTerm: any) => {
 // delete single product
 const deleteSingleProductFromDB = async (productId: string) => {
   const result = await ProductModel.updateOne(
-    { id: productId },
+    { _id: new ObjectId(productId)  },
     {
       $set: { isDeleted: true },
     },

@@ -10,7 +10,6 @@ const inventorySchema = z.object({
 });
 
 export const ProductValidationSchema = z.object({
-  id: z.string(),
   name: z.string(),
   description: z.string(),
   price: z.number(),

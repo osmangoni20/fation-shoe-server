@@ -13,7 +13,6 @@ const inventorySchema = new Schema({
 });
 
 export const productSchema = new Schema({
-  id: { type: String, required: [true, 'ID is required'], unique: true },
   name: { type: String, required: [true, 'Name is required'] },
   description: { type: String, required: [true, 'Description is required'] },
   price: { type: Number, required: [true, 'Price is required'] },
