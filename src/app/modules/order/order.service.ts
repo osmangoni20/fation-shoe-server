@@ -45,11 +45,11 @@ const getOrderFromDB = async () => {
   return result;
 };
 
-// Single Order
+// Single Order 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getSingleOrderFromDB = async (email: any) => {
   const result = await OrderModel.findOne({ email: email });
-  return result;
+  return result
 };
 export const OrderService = {
   createOrderIntoDB,
