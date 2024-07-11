@@ -5,7 +5,7 @@ import { ProductValidationSchema } from "./product.validation";
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product } = req.body;
+    const product = req.body;
     const validateData = ProductValidationSchema.parse(product);
     console.log(validateData);
     const result = await ProductService.createProductIntoDB(validateData);
@@ -17,7 +17,7 @@ const createProduct = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       success: true,
-      message: "Something is Error",
+      message:error.message|| "Something is Error",
       error: error.message,
     });
   }

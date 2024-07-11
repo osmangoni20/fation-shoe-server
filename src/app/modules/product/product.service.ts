@@ -3,7 +3,6 @@ import { TProduct } from "./product.interface";
 
 const createProductIntoDB = async (product: TProduct) => {
   const result = await ProductModel.create(product);
-  console.log("service:", result);
   return result;
 };
 // get All product

@@ -3,27 +3,26 @@ import { TProduct } from "../product/product.interface";
 
 const { Schema } = mongoose;
 const variantSchema = new Schema({
-  type: { type: String, required: true },
-  value: { type: String, required: true },
+  type: { type: String, required: [true, 'Type is required'] },
+  value: { type: String, required: [true, 'Value is required'] },
 });
 
 const inventorySchema = new Schema({
-  quantity: { type: Number, required: true },
-  inStock: { type: Boolean, required: true },
+  quantity: { type: Number, required: [true, 'Quantity is required'] },
+  inStock: { type: Boolean, required: [true, 'InStock status is required'] },
 });
 
 export const productSchema = new Schema({
-  id: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  category: { type: String, required: true },
-  tags: { type: [String], required: true },
-  variants: { type: [variantSchema], required: true },
-  inventory: { type: inventorySchema, required: true },
+  id: { type: String, required: [true, 'ID is required'], unique: true },
+  name: { type: String, required: [true, 'Name is required'] },
+  description: { type: String, required: [true, 'Description is required'] },
+  price: { type: Number, required: [true, 'Price is required'] },
+  category: { type: String, required: [true, 'Category is required'] },
+  tags: { type: [String], required: [true, 'Tags are required'] },
+  variants: { type: [variantSchema], required: [true, 'Variants are required'] },
+  inventory: { type: inventorySchema, required: [true, 'Inventory is required'] },
   isDeleted: { type: Boolean },
 });
-
 productSchema.pre("save", function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const product = this;
