@@ -9,13 +9,8 @@ const createOrder = async (req: Request, res: Response) => {
 
   try {
     const zodValidationData = orderValidationSchema.parse(orderData);
-    const result = (await OrderService.createOrderIntoDB(
-      zodValidationData,
-    )) as any
-    console.log(result);
-    if (result?.success === false) {
-      res.send(result);
-    }
+    const result = await OrderService.createOrderIntoDB(zodValidationData);
+
     res.status(200).json({
       success: true,
       message: "Order created successfully!",

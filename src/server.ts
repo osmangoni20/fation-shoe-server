@@ -22,9 +22,9 @@ process.on("unhandledRejection", () => {
       process.exit(1);
     });
   }
-  process.exit(1);   
+  process.exit(1);
 });
-    
+
 process.on("uncaughtException", () => {
   console.log(`😈🙉 uncaughtException is detected. Shutting down...`);
   process.exit(1);

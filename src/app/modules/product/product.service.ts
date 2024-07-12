@@ -12,10 +12,10 @@ const getAllProductFromDB = async () => {
   return result;
 };
 // get Single Product
-const getSingleProductFromDB = async (productId: string) => {
+export const getSingleProductFromDB = async (productId: string) => {
   const result = await ProductModel.aggregate([
     {
-      $match: { _id:{$eq:new ObjectId(productId)}},
+      $match: { _id: { $eq: new ObjectId(productId) } },
     },
   ]);
   return result[0];
@@ -27,7 +27,7 @@ const updateSingleProductIntoDB = async (
   updateData: TProduct,
 ) => {
   const result = await ProductModel.updateOne(
-    {_id: new ObjectId(productId)  },
+    { _id: new ObjectId(productId) },
     {
       $set: { ...updateData },
     },
@@ -38,7 +38,6 @@ const updateSingleProductIntoDB = async (
 // searchProduct
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const searchSingleProductFromDB = async (searchTerm: any) => {
-  // {$regex:searchTerm, $options:'i'}
   const result = await ProductModel.find({
     name: { $regex: searchTerm, $options: "i" },
   });
@@ -47,7 +46,7 @@ const searchSingleProductFromDB = async (searchTerm: any) => {
 // delete single product
 const deleteSingleProductFromDB = async (productId: string) => {
   const result = await ProductModel.updateOne(
-    { _id: new ObjectId(productId)  },
+    { _id: new ObjectId(productId) },
     {
       $set: { isDeleted: true },
     },

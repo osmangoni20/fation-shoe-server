@@ -2,13 +2,18 @@ import { ObjectId } from "mongodb";
 import { OrderModel } from "../schema/orderSchema";
 import { ProductModel } from "../schema/productSchema";
 import { TProductOrder } from "./order.interface";
+import { ProductService } from "../product/product.service";
 
 // Checking Product From Database
-const CheckProductFromDB = async (orderData: TProductOrder) => {
-  const product = await ProductModel.findOne({
-    _id: new ObjectId(orderData.productId),
-  });
-  if (product !== null) {
+
+// Create Order
+const createOrderIntoDB = async (orderData: TProductOrder) => {
+  const product = await ProductService.getSingleProductFromDB(
+    orderData.productId,
+  );
+  if (product === undefined) {
+    throw Error("Product Not Found");
+  } else {
     if (product.inventory.quantity >= orderData.quantity) {
       const result = await OrderModel.create(orderData);
       const updateQuantity = product.inventory.quantity - orderData.quantity;
@@ -23,21 +28,9 @@ const CheckProductFromDB = async (orderData: TProductOrder) => {
         { _id: new ObjectId(orderData.productId) },
         { $set: { inventory: { inStock: false, quantity: 0 } } },
       );
-      return {
-        success: false,
-        message: "Insufficient quantity available in inventory",
-      };
+      throw Error("Insufficient quantity available in inventory");
     }
   }
-  return {
-    success: false,
-    message: "Product not found",
-  };
-};
-// Create Order
-const createOrderIntoDB = async (orderData: TProductOrder) => {
-  const result = await CheckProductFromDB(orderData);
-  return result;
 };
 // Get All Order From Database
 const getOrderFromDB = async () => {
@@ -45,11 +38,11 @@ const getOrderFromDB = async () => {
   return result;
 };
 
-// Single Order 
+// Single Order
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getSingleOrderFromDB = async (email: any) => {
   const result = await OrderModel.findOne({ email: email });
-  return result
+  return result;
 };
 export const OrderService = {
   createOrderIntoDB,
